@@ -21,12 +21,12 @@ A simple **RESTful API** built with **Django** and **Django REST Framework** for
    source venv/bin/activate  # On Windows: venv\Scripts\activate
    pip install -r requirements.txt
 4. Run migrations and start the server:
-  ```bash
-      python manage.py migrate
-      python manage.py runserver
+   ```bash
+   python manage.py migrate
+   python manage.py runserver
 
-## Installation
-Users:
+## API Endpoints
+ Users:
 
 POST /api/users/register/ - Register a new user.
 
@@ -43,4 +43,5 @@ Tasks:
 GET /api/projects/{project_id}/tasks/ - List tasks in a project.
 
 POST /api/projects/{project_id}/tasks/ - Create a new task.
+
 
