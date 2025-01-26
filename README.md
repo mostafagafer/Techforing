@@ -26,22 +26,70 @@ A simple **RESTful API** built with **Django** and **Django REST Framework** for
    python manage.py runserver
 
 ## API Endpoints
- Users:
+API Endpoints
+Users
+Register User: POST /api/users/register/
 
-POST /api/users/register/ - Register a new user.
+json
+Copy
+{
+  "username": "testuser",
+  "email": "test@example.com",
+  "password": "securepassword123"
+}
+Login User: POST /api/users/login/
 
-POST /api/users/login/ - Authenticate a user and get a token.
+json
+Copy
+{
+  "username": "testuser",
+  "password": "securepassword123"
+}
+Projects
+List Projects: GET /api/projects/
 
-Projects:
+Create Project: POST /api/projects/
 
-GET /api/projects/ - List all projects.
+json
+Copy
+{
+  "name": "New Project",
+  "description": "This is a new project."
+}
+Tasks
+List Tasks: GET /api/projects/{project_id}/tasks/
 
-POST /api/projects/ - Create a new project.
+Create Task: POST /api/projects/{project_id}/tasks/
 
-Tasks:
+json
+Copy
+{
+  "title": "New Task",
+  "description": "This is a new task.",
+  "status": "To Do",
+  "priority": "High",
+  "assigned_to": 1,
+  "due_date": "2023-12-31T23:59:59Z"
+}
+Comments
+List Comments: GET /api/tasks/{task_id}/comments/
 
-GET /api/projects/{project_id}/tasks/ - List tasks in a project.
+Create Comment: POST /api/tasks/{task_id}/comments/
 
-POST /api/projects/{project_id}/tasks/ - Create a new task.
+json
+Copy
+{
+  "content": "This is a new comment."
+}
+Usage
+Register a new user using the /api/users/register/ endpoint.
+
+Log in using the /api/users/login/ endpoint to get an authentication token.
+
+Use the token in the Authorization header for authenticated requests:
+
+Copy
+Authorization: Token <your_token_here>
+Create projects, tasks, and comments using the respective endpoints.
 
 
