@@ -12,3 +12,15 @@ A simple **RESTful API** built with **Django** and **Django REST Framework** for
 1. Clone the repository:
    ```bash
    git clone https://github.com/mostafagafer/Techforing.git
+2. Navigate to the project directory:
+   ```bash
+   cd Techforing
+3. Set up a virtual environment and install dependencies:
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   pip install -r requirements.txt
+4. Run migrations and start the server:
+  ```bash
+      python manage.py migrate
+      python manage.py runserver
