@@ -24,3 +24,23 @@ A simple **RESTful API** built with **Django** and **Django REST Framework** for
   ```bash
       python manage.py migrate
       python manage.py runserver
+
+## Installation
+Users:
+
+POST /api/users/register/ - Register a new user.
+
+POST /api/users/login/ - Authenticate a user and get a token.
+
+Projects:
+
+GET /api/projects/ - List all projects.
+
+POST /api/projects/ - Create a new project.
+
+Tasks:
+
+GET /api/projects/{project_id}/tasks/ - List tasks in a project.
+
+POST /api/projects/{project_id}/tasks/ - Create a new task.
+
