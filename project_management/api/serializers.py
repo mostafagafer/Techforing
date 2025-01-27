@@ -27,33 +27,35 @@ class ProjectMemberSerializer(serializers.ModelSerializer):
         model = ProjectMember
         fields = ['id', 'user', 'role']
 
+from rest_framework import serializers
+from .models import Project, ProjectMember
+
+class ProjectMemberSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProjectMember
+        fields = ['user', 'role']
+
 class ProjectSerializer(serializers.ModelSerializer):
-    owner = serializers.ReadOnlyField(source='owner.username')  # Show owner's username
-    members = ProjectMemberSerializer(many=True, required=False)  # Nested serializer for members
+    members = ProjectMemberSerializer(many=True)  # Nested serializer for members
 
     class Meta:
         model = Project
-        fields = ['id', 'name', 'description', 'owner', 'created_at', 'members']
+        fields = ['id', 'name', 'description', 'members']
 
-    def update(self, instance, validated_data):
-        # Update the project fields
-        instance.name = validated_data.get('name', instance.name)
-        instance.description = validated_data.get('description', instance.description)
-        instance.save()
-
-        # Handle members
-        members_data = validated_data.pop('members', [])
+    def create(self, validated_data):
+        # Extract the nested 'members' data
+        members_data = validated_data.pop('members')
+        
+        # Create the project
+        project = Project.objects.create(**validated_data)
+        
+        # Create the related ProjectMember objects
         for member_data in members_data:
-            user_id = member_data['user'].id
-            role = member_data['role']
-            ProjectMember.objects.update_or_create(
-                project=instance,
-                user_id=user_id,
-                defaults={'role': role},
-            )
-
-        return instance
-
+            ProjectMember.objects.create(project=project, **member_data)
+        
+        return project
+    
+    
 # Task Serializer
 class TaskSerializer(serializers.ModelSerializer):
     assigned_to = serializers.PrimaryKeyRelatedField(queryset=User.objects.all(), allow_null=True)  # Accept user ID
@@ -71,3 +73,8 @@ class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = ['id', 'content', 'user', 'task', 'created_at']
+
+
+class LoginSerializer(serializers.Serializer):
+    username = serializers.CharField(required=True)
+    password = serializers.CharField(required=True)
