@@ -36,26 +36,32 @@ class ProjectMemberSerializer(serializers.ModelSerializer):
         fields = ['user', 'role']
 
 class ProjectSerializer(serializers.ModelSerializer):
-    members = ProjectMemberSerializer(many=True)  # Nested serializer for members
+    members = ProjectMemberSerializer(many=True, required=False)  # Make 'members' optional
 
     class Meta:
         model = Project
         fields = ['id', 'name', 'description', 'members']
 
     def create(self, validated_data):
-        # Extract the nested 'members' data
-        members_data = validated_data.pop('members')
+        # Extract the nested 'members' data (if provided)
+        members_data = validated_data.pop('members', [])
+        
+        # Get the current user (project creator)
+        creator = self.context['request'].user
         
         # Create the project
         project = Project.objects.create(**validated_data)
         
-        # Create the related ProjectMember objects
+        # Add the creator as an Admin by default
+        ProjectMember.objects.create(project=project, user=creator, role='Admin')
+        
+        # Add other members (if provided)
         for member_data in members_data:
             ProjectMember.objects.create(project=project, **member_data)
         
         return project
     
-    
+
 # Task Serializer
 class TaskSerializer(serializers.ModelSerializer):
     assigned_to = serializers.PrimaryKeyRelatedField(queryset=User.objects.all(), allow_null=True)  # Accept user ID

@@ -21,8 +21,9 @@ class ProjectViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
     def perform_create(self, serializer):
-        # Automatically set the owner to the current user
+        # Pass the request context to the serializer
         serializer.save(owner=self.request.user)
+
 
         
 # Task ViewSet
