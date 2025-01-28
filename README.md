@@ -25,19 +25,16 @@ Installation
 
 1.  Clone the repository:
     
-    bashCopy
     
         git clone https://github.com/mostafagafer/Techforing.git
     
 2.  Navigate to the project directory:
     
-    bashCopy
     
         cd Techforing
     
 3.  Set up a virtual environment and install dependencies:
     
-    bashCopy
     
         python -m venv venv
         source venv/bin/activate  # On Windows: venv\Scripts\activate
@@ -45,7 +42,6 @@ Installation
     
 4.  Run migrations and start the server:
     
-    bashCopy
     
         python manage.py migrate
         python manage.py runserver
@@ -58,7 +54,6 @@ API Endpoints
 
 *   **Register User**: POST `/api/users/register/`
     
-    JSONCopy
     
         {
           "username": "testuser",
@@ -68,7 +63,6 @@ API Endpoints
     
 *   **Login User**: POST `/api/users/login/`
     
-    JSONCopy
     
         {
           "username": "testuser",
@@ -82,7 +76,6 @@ API Endpoints
     
 *   **Create Project**: POST `/api/projects/`
     
-    JSONCopy
     
         {
           "name": "New Project",
@@ -96,7 +89,6 @@ API Endpoints
     
 *   **Create Task**: POST `/api/projects/{project_id}/tasks/`
     
-    JSONCopy
     
         {
           "title": "New Task",
@@ -114,7 +106,6 @@ API Endpoints
     
 *   **Create Comment**: POST `/api/tasks/{task_id}/comments/`
     
-    JSONCopy
     
         {
           "content": "This is a new comment."
@@ -130,7 +121,6 @@ Usage
     
 3.  **Use the token in the Authorization header** for authenticated requests:
     
-    bashCopy
     
         Authorization: Token <your_token_here>
     
