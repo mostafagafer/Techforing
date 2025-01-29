@@ -43,6 +43,7 @@ Installation
 4.  Run migrations and start the server:
     
     
+        python manage.py makemigraion
         python manage.py migrate
         python manage.py runserver
     
@@ -109,6 +110,7 @@ API Endpoints
     
         {
           "content": "This is a new comment."
+          "task": 2
         }
     
 
@@ -140,10 +142,12 @@ Contributing
 
 Feel free to contribute to this project by submitting pull requests or opening issues.
 
-License
--------
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+Acknowledgment
+--------------
+
+A big shout-out to DeepSeek for helping me create this project from scratch. Thanks to the AI community for making these tools available and inspiring countless possibilities.
 
 * * *
 
