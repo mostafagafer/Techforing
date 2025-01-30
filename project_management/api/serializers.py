@@ -1,26 +1,27 @@
 from rest_framework import serializers
 from .models import User, Project, ProjectMember, Task, Comment
+from rest_framework.authtoken.models import Token
 
 # User Serializer
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'password', 'first_name', 'last_name']  # Include 'password'
+        fields = ['id', 'username', 'email', 'password', 'first_name', 'last_name']
         extra_kwargs = {
-            'password': {'write_only': True},  # Ensure password is write-only
+            'password': {'write_only': True},
         }
 
     def create(self, validated_data):
-        # Create a new user with the validated data
         user = User.objects.create_user(
             username=validated_data['username'],
             email=validated_data['email'],
-            password=validated_data['password'],  # Ensure password is hashed
+            password=validated_data['password'],
             first_name=validated_data.get('first_name', ''),
             last_name=validated_data.get('last_name', ''),
         )
+        # Generate token for the new user
+        token, created = Token.objects.get_or_create(user=user)
         return user
-
 
 # ProjectMember Serializer
 class ProjectMemberSerializer(serializers.ModelSerializer):

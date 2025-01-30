@@ -185,6 +185,8 @@ class CommentViewSet(viewsets.ModelViewSet):
 
 # User Registration View
 class RegisterUser(APIView):
+    permission_classes = [AllowAny]  # Allow unauthenticated access
+
     @swagger_auto_schema(
         operation_description="Register a new user.",
         request_body=UserSerializer,
@@ -193,10 +195,13 @@ class RegisterUser(APIView):
     def post(self, request):
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()  # This will call the `create` method in the serializer
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            user = serializer.save()  # This will call the `create` method in the serializer
+            token, created = Token.objects.get_or_create(user=user)
+            return Response({
+                'user': serializer.data,
+                'token': token.key
+            }, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 
 # User Login View
 class LoginUser(APIView):
