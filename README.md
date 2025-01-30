@@ -43,6 +43,7 @@ Installation
 4.  Run migrations and start the server:
     
     
+        cd project_management
         python manage.py makemigraion
         python manage.py migrate
         python manage.py runserver
